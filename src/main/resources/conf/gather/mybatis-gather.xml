@@ -1,0 +1,10 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.richeninfo.xrzgather.dao.HuiyiDao">
+    <select id="select_exists" resultType="date" parameterType="string">
+		select begin_time from gt_meeting_info where info_source='31会议网1' and meeting_name=#{meeting_name}
+	</select>
+	<insert id="save_gather_result" parameterType="map">
+	    insert into gt_meeting_info (meeting_name, info_url, meeting_place, begin_time, end_time, info_source, updatetime) values (#{INFO_TITLE}, #{INFO_URL}, #{place}, #{startDateTime}, #{endDateTime}, '31会议网', #{updatetime})
+	</insert>
+</mapper>

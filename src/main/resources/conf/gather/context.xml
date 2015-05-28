@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	Created on : 2013年7月24日, 下午15:10
+	Author     : yameng.yang
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
+	default-autowire="byName">
+
+	<!-- 映射文件配置 -->
+	<bean id="gatherWebUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+                <prop key="/flow.do">flowOperateController</prop>
+                <prop key="/test.do">testRun</prop>
+                <prop key="/infoData.do">infoDataController</prop>
+			</props>
+		</property>
+	</bean>
+    <bean id="flowOperateController" class="com.richeninfo.xrzgather.web.FlowOperateController" autowire="byName"></bean>
+    <bean id="infoDataController" class="com.richeninfo.xrzgather.web.InfoDataController" autowire="byName"></bean>
+    <bean id="testRun" class="com.richeninfo.xrzgather.web.TestRun" autowire="byName"></bean>
+    <bean id="flowDescView" class="com.richeninfo.xrzgather.view.FlowDescView" autowire="byName"></bean>
+</beans>

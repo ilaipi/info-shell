@@ -1,0 +1,110 @@
+fields:
+  - name: MainCategory
+    text: 主营项目（大类）
+    parse:
+      from: global
+      var: mainCategory
+  - name: Category
+    text: 主营项目（小类）
+    parse:
+      from: global
+      var: category
+  - name: SalesPromotion
+    text: 优惠情况
+    locate:
+      - type: css
+        selector: ul.block.b-promo-info
+    handler:
+      - type: replace
+        target: \s+
+        reg: true
+        replacement: " "
+  - name: branch
+    text: 分店个数
+    locate:
+      - type: css
+        selector: "div.shop-info-inner div.shop-name span.ep-trigger a"
+    parse:
+      from: reg
+      reg: "[^\d]*(\d{1,})"
+      index: 1
+  - name: region
+    text: 区域
+    parse:
+      from: global
+      var: region
+  - name: location
+    text: 营业地址
+    locate:
+      - type: css
+        selector: "dl.shopDeal-Info-address"
+    handler:
+      - type: replace
+        target: \s+
+        reg: true
+      - type: replace
+        target: 地址:
+        reg: false
+      - type: replace
+        target: 查看地图
+        reg: false
+      - type: replace
+        target: 公交/驾车
+        reg: false
+  - name: tel
+    text: 店铺联系方式(广告)
+    locate:
+      - type: css
+        selector: "div.shop-info-inner"
+      - type: start-end
+        start: 电话:</dt>
+        start-with: false
+        end: </dd>
+        end-with: true
+  - name: Price
+    text: 费用
+    locate:
+      - type: css
+        selector: "div.shop-info-inner"
+      - type: start-end
+        start: <dt>费用
+        start-with: true
+        end: </dd>
+        end-with: true
+    handler:
+      - type: replace
+        target: 费用
+        reg: false
+        replacement: ""
+
+  # substring first, and then css selector
+  - name: hours
+    text: 营业时间
+    locate:
+      - type: start-end
+        start: 营业时间:</dt>
+        start-with: false
+        end: </dl>
+        end-with: false
+      - type: css
+        selector: span.J_full-cont
+  - name: stop
+    text: 停车位
+    locate:
+      - type: start-end
+        start: 停车信息：</dt>
+        start-with: false
+        end: 查看位置</a>
+        end-with: false
+      - type: css
+        selector: span
+  - name: trafic
+    text: 公交信息
+    locate:
+      - type: start-end
+        start: 公交信息:</dt>
+        start-with: false
+        end: 添加</a>
+        end-with: false
+      - type: css
+        selector: span

@@ -1,0 +1,25 @@
+#city:
+#  - name: 北京
+#    code: 2
+#  - name: 成都
+#    code: 8
+#  - name: 广州
+#    code: 4
+#  - name: 吉林
+#    code: 71
+#  - name: 南通
+#    code: 94
+#  - name: 上海
+#    code: 1
+#  - name: 武汉
+#    code: 16
+#  - name: 咸宁
+#    code: 186
+北京: 2
+成都: 8
+广州: 4
+吉林: 71
+南通: 94
+上海: 1
+武汉: 16
+咸宁: 186

@@ -1,0 +1,121 @@
+fields:
+  - name: MainCategory
+    text: 主营项目（大类）
+    parse:
+      from: global
+      var: mainCategory
+  - name: Category
+    text: 主营项目（小类）
+    parse:
+      from: global
+      var: category
+  - name: topRank
+    text: 酒店排名
+    locate:
+      - type: css
+        selector: div#base-info em
+  - name: region
+    text: 区域
+    parse:
+      from: global
+      var: region
+  - name: location
+    text: 营业地址
+    locate:
+      - type: css
+        selector: "div#base-info p.shop-address"
+    handler:
+      - type: replace
+        target: "[\n][ ]*"
+        reg: true
+        replacement: " "
+      - type: replace
+        target: " "
+        reg: false
+        replacement: ""
+      - type: replace
+        target: "地址："
+        reg: false
+        replacement: ""
+  - name: tel
+    text: 酒店电话
+    locate:
+      - type: css
+        selector: "div#hotel-intro div.hotel-facilities p:nth-child(1)"
+    parse:
+      from: reg
+      reg: "电话: (.*)</sp"
+      index: 1
+    handler:
+      - type: replace
+        target: "&nbsp"
+        reg: false
+        replacement: ""
+  - name: hotelIntro
+    text: 酒店介绍
+    locate:
+      - type: css
+        selector: "div#hotel-intro p.fold-description"
+  - name: opened
+    text: 开业/装修
+    locate:
+      - type: css
+        selector: "div#hotel-intro div.hotel-facilities p:nth-child(1)"
+    parse:
+      from: reg
+      reg: "<span>(.*)电话"
+      index: 1
+    handler:
+      - type: replace
+        target: "&nbsp"
+        reg: false
+        replacement: ""
+  - name: transport
+    text: 酒店交通
+    locate:
+      - type: css
+        selector: "div#hotel-transport div.hotel-traffic"
+    handler:
+      - type: replace
+        target: "\n[ ]*"
+        reg: true
+        replacement: " "
+  - name: room
+    text: 客房设施
+    locate:
+      - type: start-end
+        start: 客房设施</span>
+        start-with: false
+        end: </li>
+        end-with: false
+    handler:
+      - type: replace
+        target: "\r\n[ ]*"
+        reg: true
+        replacement: "、"
+  - name: roomService
+    text: 服务项目
+    locate:
+      - type: start-end
+        start: 服务项目</span>
+        start-with: false
+        end: </li>
+        end-with: false
+    handler:
+      - type: replace
+        target: "\r\n[ ]*"
+        reg: true
+        replacement: "、"
+  - name: hotelTotal
+    text: 综合设施
+    locate:
+      - type: start-end
+        start: 综合设施</span>
+        start-with: false
+        end: </li>
+        end-with: false
+    handler:
+      - type: replace
+        target: "\r\n[ ]*"
+        reg: true
+        replacement: "、"

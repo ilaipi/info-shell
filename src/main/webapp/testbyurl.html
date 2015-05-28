@@ -1,0 +1,83 @@
+<html>
+<head>
+    <title>Test By Url</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="shortcut icon" href="./static/favicon.ico">
+    <link href="./static/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="./static/js/jquery.js"></script>
+    <script type="text/javascript">
+        //$(function(){
+        //});
+        function test(){
+            var url = $($("input[name=url]")[0]).val();
+            var cssSelector = $($("input[name=cssSelector]")[0]).val();
+            var jsoupCssSelector = $($("input[name=jsoupCssSelector]")[0]).val();
+            $.get(
+                "test.do",
+                {
+                    action : "testByUrl",
+                    cssSelector : cssSelector,
+                    jsoupCssSelector : jsoupCssSelector,
+                    url : url
+                },
+                function(data){
+                    $("#resultarea").val(data);
+                    $("#testResult").show();
+                }
+            );
+        }
+        function testListTag(){
+            var url = $($("input[name=urlList]")[0]).val();
+            var cssSelector = $($("input[name=listCssSelector]")[0]).val();
+            $.get(
+                "test.do",
+                {
+                    action : "testListTag",
+                    listCssSelector : cssSelector,
+                    url : url
+                },
+                function(data){
+                    $("#first_list_tag").val(data);
+                    $("#testListResult").show();
+                }
+            );
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Url:</h1>
+        <div class="row">
+            <input type="text" class="form-control input-sm" placeholder="url" name="url">
+        </div>
+        <h1>CSS Selector:</h1>
+        <div class="row">
+            <div class="col-lg-6">
+                <input type="text" class="form-control input-sm" placeholder="css selector" name="cssSelector">
+            </div>
+            <div class="col-lg-6">
+                <input type="text" class="form-control input-sm" placeholder="jsoup css selector" name="jsoupCssSelector">
+            </div>
+        </div>
+        <button type="button" class="btn btn-success" style="margin: 20px 0 10px 0;" id="cloneflow" onclick="javascript:test();return false;">测试</button>
+        <div class="row" style="display: none;" id="testResult">
+            <textarea class="form-control" rows="3" placeholder="test html" name="html" style="height: 400px;" id="resultarea"></textarea>
+        </div>
+    </div>
+    <div class="container">
+        <h1>Url:</h1>
+        <div class="row">
+            <input type="text" class="form-control input-sm" placeholder="url" name="urlList">
+        </div>
+        <h1>ListTag CSS Selector:</h1>
+        <div class="row">
+            <div class="col-lg-6">
+                <input type="text" class="form-control input-sm" placeholder="css selector" name="listCssSelector">
+            </div>
+        </div>
+        <button type="button" class="btn btn-success" style="margin: 20px 0 10px 0;" onclick="javascript:testListTag();return false;">测试</button>
+        <div class="row" style="display: none;" id="testListResult">
+            <h1>第一个：</h1><textarea class="form-control" rows="3" placeholder="test html" name="html" style="height: 400px;" id="first_list_tag"></textarea>
+        </div>
+    </div>
+</body>

@@ -1,0 +1,36 @@
+餐厅:
+  MainCategory: 美食
+  yaml: meishi.yaml
+亲子:
+  MainCategory: 亲子
+  yaml: qinzi.yaml
+运动健身:
+  MainCategory: 运动健身
+  yaml: sports-fitness.yaml
+家装:
+  MainCategory: 家装
+  yaml: jiazhuang.yaml
+生活服务:
+  MainCategory: 生活服务
+  yaml: life-service.yaml
+休闲娱乐:
+  MainCategory: 休闲娱乐
+  yaml: ktv.yaml
+成都结婚:
+  MainCategory: 成都结婚
+  yaml: jiehun_chengdu.yaml
+结婚:
+  MainCategory: 结婚
+  yaml: jiehun.yaml
+丽人:
+  MainCategory: 丽人
+  yaml: liren.yaml
+购物:
+  MainCategory: 购物
+  yaml: shopping.yaml
+爱车:
+  MainCategory: 爱车
+  yaml: car.yaml
+酒店:
+  MainCategory: 酒店
+  yaml: hotel.yaml

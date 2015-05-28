@@ -1,0 +1,34 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.richeninfo.xrzgather.dao.GatherCommonInfoDao">
+	<insert id="saveGatherResult" parameterType="map">
+	    insert into info_common_info(
+        <if test="INFO_TITLE != null and INFO_TITLE != ''">title</if>
+        <if test="INFO_URL != null and INFO_URL != ''">,info_url</if>
+        <if test="INFO_NET_NAME != null and INFO_NET_NAME != ''">,info_net_name</if>
+        <if test="infoSource != null and infoSource != ''">,info_source</if>
+        ,uuid,updatetime) values (
+        <if test="INFO_TITLE != null and INFO_TITLE != ''">#{INFO_TITLE}</if>
+        <if test="INFO_URL != null and INFO_URL != ''">,#{INFO_URL}</if>
+        <if test="INFO_NET_NAME != null and INFO_NET_NAME != ''">,#{INFO_NET_NAME}</if>
+        <if test="infoSource != null and infoSource != ''">,#{infoSource}</if>
+        ,#{INFO_UUID},now())
+	</insert>
+    
+    <resultMap type="map" id="searchInfoListMap">
+        <result column="info_net_name" property="INFO_NET_NAME" />
+        <result column="info_source" property="INFO_SOURCE" />
+        <result column="title" property="INFO_TITLE" />
+        <result column="info_url" property="infoUrl" />
+        <result column="uuid" property="uuid" />
+    </resultMap>
+    <select id="searchInfoList" resultMap="searchInfoListMap" parameterType="map">
+		SELECT info_net_name,info_source,title,info_url,uuid FROM info_common_info
+        <where>
+            <if test="title != null and title != ''">title like #{title}</if>
+            <if test="INFO_SOURCE != null and INFO_SOURCE != ''">or info_source like #{INFO_SOURCE}</if>
+            <if test="uuid != null and uuid != ''">or uuid=#{uuid}</if>
+            <if test="infoId != null and infoId != ''">or id=#{infoId}</if>
+        </where>
+	</select>
+</mapper>

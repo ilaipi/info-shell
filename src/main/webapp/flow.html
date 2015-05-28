@@ -1,0 +1,914 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="shortcut icon" href="./static/favicon.ico">
+    <link href="./static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./static/css/font-awesome.min.css" rel="stylesheet">
+    <script type="text/javascript" src="./static/js/jquery.js"></script>
+    <script type="text/javascript" src="./static/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="./static/js/flowTask.js"></script>
+    <style>
+        .x-type{
+            display: none
+        }
+        .moveable{
+            
+        }
+        .tool_name{
+            
+        }
+        .tool_id{
+            display: none
+        }
+        .java-type{
+            display: none
+        }
+        .deleteable{
+            
+        }
+        .properties_box_hide{
+            display: none
+        }
+        .properties_box_show{
+        }
+    </style>
+    <script type="text/javascript" src="./static/js/flow.js"></script>
+</head>
+<body>
+<div class="container">
+    <!-- span style="font-size: 50px; font-weight: bold;float: left;margin-left: 5%;">XRZ-GATHER</span> -->
+    <div class="row">
+            <div class="col-lg-8"><h1>INFO-SHELL</h1></div>
+            <div class="col-lg-4">
+                <button type="button" class="btn btn-danger" style="margin: 20px 0 10px 0;" id="saveflow" onclick="javascript:saveFlow();return false;">保存</button>
+                <button type="button" class="btn btn-success" style="margin: 20px 0 10px 0;" id="cloneflow" onclick="javascript:cloneFlow();return false;">复制</button>
+                <button type="button" class="btn btn-warning" style="margin: 20px 0 10px 0;" id="testflow" onclick="javascript:testFlow();return false;">调试</button>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col-lg-2" id="tools_box">
+            <p>工具箱</p>
+            <ul class="list-unstyled">
+                <li>Shell
+                    <ul style="list-style:none;">
+                        <li class="moveable">
+                            <span class="tool_name">普通壳</span>
+                            <span class="x-type">x-type-shell</span>
+                            <span class="java-type">CommonShell</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">网站名称：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="netName" name="netName">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">采集栏目：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="gatherPrograma" name="gatherPrograma">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">网站地址：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="netUrl" name="netUrl">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">需要翻页：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="multiPage" name="multiPage" value="true">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">首页页码：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="firstPageNum" name="firstPageNum">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">首页倒叙：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="desc" name="desc" value="true">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">页码前：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="beforePage" name="beforePage">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">页码后：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="afterPage" name="afterPage">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">分页选择器：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="multiPageSelector" name="multiPageSelector">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">列表页面：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="listPageUrl" name="listPageUrl">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">开始日期：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="startDate" name="startDate">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">停止标题：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="suitableTitle" name="suitableTitle">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">停止机制：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="stopMechanism" name="stopMechanism">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">请求头：</span>
+                                    <textarea class="form-control" rows="3" placeholder="requestHeaders" name="requestHeaders"></textarea>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">请求体：</span>
+                                    <textarea class="form-control" rows="3" placeholder="requestBodys" name="requestBodys"></textarea>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">开始结束日期壳</span>
+                            <span class="x-type">x-type-shell</span>
+                            <span class="java-type">BeginAndEndDateShell</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">网站名称：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="netName" name="netName">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">采集栏目：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="gatherPrograma" name="gatherPrograma">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">网站地址：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="netUrl" name="netUrl">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">需要翻页：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="multiPage" name="multiPage" value="true">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">首页页码：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="firstPageNum" name="firstPageNum">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">首页倒叙：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="desc" name="desc" value="true">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">页码前：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="beforePage" name="beforePage">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">页码后：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="afterPage" name="afterPage">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">分页选择器：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="multiPageSelector" name="multiPageSelector">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">列表页面：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="listPageUrl" name="listPageUrl">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">开始日期：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="startDate" name="startDate">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">停止标题：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="suitableTitle" name="suitableTitle">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">增量字段：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="increaseField" name="increaseField">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">增量：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="incremental" name="incremental">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">停止机制：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="stopMechanism" name="stopMechanism">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">请求头：</span>
+                                    <textarea class="form-control" rows="3" placeholder="requestHeaders" name="requestHeaders"></textarea>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">请求体：</span>
+                                    <textarea class="form-control" rows="3" placeholder="requestBodys" name="requestBodys"></textarea>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">URL中有一个日期的壳</span>
+                            <span class="x-type">x-type-shell</span>
+                            <span class="java-type">URLSingleDateShell</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">网站名称：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="netName" name="netName">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">采集栏目：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="gatherPrograma" name="gatherPrograma">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">网站地址：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="netUrl" name="netUrl">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">列表页面：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="listPageUrl" name="listPageUrl">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">开始日期：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="startDate" name="startDate">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">停止标题：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="suitableTitle" name="suitableTitle">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">增量字段：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="increaseField" name="increaseField">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">增量：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="incremental" name="incremental">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">停止机制：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="stopMechanism" name="stopMechanism">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">请求头：</span>
+                                    <textarea class="form-control" rows="3" placeholder="requestHeaders" name="requestHeaders"></textarea>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">请求体：</span>
+                                    <textarea class="form-control" rows="3" placeholder="requestBodys" name="requestBodys"></textarea>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">链接是XML的壳</span>
+                            <span class="x-type">x-type-shell</span>
+                            <span class="java-type">XMLLinkShell</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">网站名称：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="netName" name="netName">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">采集栏目：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="gatherPrograma" name="gatherPrograma">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">网站地址：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="netUrl" name="netUrl">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">标题取值：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="titleValue" name="titleValue">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">链接取值：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="linkValue" name="linkValue">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">需要翻页：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="multiPage" name="multiPage" value="true">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">首页页码：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="firstPageNum" name="firstPageNum">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">首页倒叙：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="desc" name="desc" value="true">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">页码前：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="beforePage" name="beforePage">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">页码后：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="afterPage" name="afterPage">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">分页选择器：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="multiPageSelector" name="multiPageSelector">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">列表页面：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="listPageUrl" name="listPageUrl">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">开始日期：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="startDate" name="startDate">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">停止标题：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="suitableTitle" name="suitableTitle">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">停止机制：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="stopMechanism" name="stopMechanism">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">请求头：</span>
+                                    <textarea class="form-control" rows="3" placeholder="requestHeaders" name="requestHeaders"></textarea>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">请求体：</span>
+                                    <textarea class="form-control" rows="3" placeholder="requestBodys" name="requestBodys"></textarea>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">JSON壳</span>
+                            <span class="x-type">x-type-shell</span>
+                            <span class="java-type">JSONShell</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">网站名称：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="netName" name="netName">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">采集栏目：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="gatherPrograma" name="gatherPrograma">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">网站地址：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="netUrl" name="netUrl">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">标题取值：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="titleValue" name="titleValue">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">链接取值：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="linkValue" name="linkValue">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">需要翻页：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="multiPage" name="multiPage" value="true">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">首页页码：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="firstPageNum" name="firstPageNum">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">首页倒叙：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="desc" name="desc" value="true">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">页码前：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="beforePage" name="beforePage">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">页码后：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="afterPage" name="afterPage">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">分页选择器：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="multiPageSelector" name="multiPageSelector">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">列表页面：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="listPageUrl" name="listPageUrl">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">开始日期：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="startDate" name="startDate">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">停止标题：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="suitableTitle" name="suitableTitle">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">停止机制：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="stopMechanism" name="stopMechanism">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">请求头：</span>
+                                    <textarea class="form-control" rows="3" placeholder="requestHeaders" name="requestHeaders"></textarea>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">请求体：</span>
+                                    <textarea class="form-control" rows="3" placeholder="requestBodys" name="requestBodys"></textarea>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li>结果处理器
+                    <ul style="list-style:none;">
+                        <li class="moveable">
+                            <span class="tool_name">字符串转日期</span>
+                            <span class="x-type">x-type-resulthandler</span>
+                            <span class="java-type">ToDateHandler</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">转换字段：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="key" name="key">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">显示名称：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="displayName" name="displayName">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">源格式：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="yyyy年MM月dd HH:mm" name="format">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">字符串拼接处理器</span>
+                            <span class="x-type">x-type-resulthandler</span>
+                            <span class="java-type">JoinResultHandler</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">生成字段：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="key" name="key">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">显示名称：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="displayName" name="displayName">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">拼接字段：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="${startYear}$C{年}" name="joinKeys">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">判断是否存在处理器</span>
+                            <span class="x-type">x-type-resulthandler</span>
+                            <span class="java-type">ExistsHandler</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">生成字段：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="key" name="key" value="exists">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">显示名称：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="displayName" name="displayName">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">dao名称：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="daoName" name="daoName">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">sqlId：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="sqlId" name="sqlId">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">保存结果处理器</span>
+                            <span class="x-type">x-type-resulthandler</span>
+                            <span class="java-type">SaveResultHandler</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">生成字段：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="key" name="key">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">显示名称：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="displayName" name="displayName">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">dao名称：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="daoName" name="daoName">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">sqlId：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="sqlId" name="sqlId">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">合适标题处理器</span>
+                            <span class="x-type">x-type-resulthandler</span>
+                            <span class="java-type">SuitableTitleHandler</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">生成字段：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="key" name="key">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">显示名称：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="displayName" name="displayName">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">dao名称：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="daoName" name="daoName">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">sqlId：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="sqlId" name="sqlId">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">附件检测处理器</span>
+                            <span class="x-type">x-type-resulthandler</span>
+                            <span class="java-type">AttachmentFromInfoTextHandler</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">显示名称：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="displayName" name="displayName">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">dao名称：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="daoName" name="daoName" value="GatherPolicyDao">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">sqlId：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="sqlId" name="sqlId" value="savePolicyAttachment">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">附件选择器：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="a" name="attachSelector">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">附件类型：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="pdf,doc,xls,docx,xlsx" name="fileSuffix">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">列表标签附件检测处理器</span>
+                            <span class="x-type">x-type-resulthandler</span>
+                            <span class="java-type">AttachmentFromListTag</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">显示名称：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="displayName" name="displayName">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">dao名称：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="daoName" name="daoName" value="GatherPolicyDao">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">sqlId：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="sqlId" name="sqlId" value="savePolicyAttachment">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">附件选择器：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="a" name="attachSelector">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">附件类型：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="pdf,doc,xls,docx,xlsx" name="fileSuffix">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">31会议网结束时间字段处理器</span>
+                            <span class="x-type">x-type-resulthandler</span>
+                            <span class="java-type">Huiyi31EndtimeHandler</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">生成字段：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="key" name="key">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">字符串替换处理器</span>
+                            <span class="x-type">x-type-resulthandler</span>
+                            <span class="java-type">ReplaceHandler</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">要替换的字符串：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="toReplace" name="toReplace">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">是否正则表达式：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="isReg" name="isReg">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">替换为：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="replaceWith" name="replaceWith">
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="moveable">
+                    <span class="tool_name">页面</span>
+                    <span class="x-type">x-type-page</span>
+                    <span class="java-type">Page</span>
+                    <div class="properties_box_hide">
+                        <div class="input-group">
+                            <span class="input-group-addon input-sm">页面名称：</span>
+                            <input type="text" class="form-control input-sm" placeholder="displayName" name="displayName">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon input-sm">需要翻页：</span>
+                            <input type="text" class="form-control input-sm" placeholder="multiPage" name="multiPage" value="false">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon input-sm">翻页选择器：</span>
+                            <input type="text" class="form-control input-sm" placeholder="cssSelector" name="cssSelector">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon input-sm">首页页码：</span>
+                            <input type="text" class="form-control input-sm" placeholder="firstPageNum" name="firstPageNum" value="1">
+                        </div>
+                    </div>
+                </li>
+                <li class="moveable">
+                    <span class="tool_name">字段</span>
+                    <span class="x-type">x-type-list-field</span>
+                    <span class="java-type">Field</span>
+                    <div class="properties_box_hide">
+                        <div class="input-group">
+                            <span class="input-group-addon input-sm">字段名称：</span>
+                            <input type="text" class="form-control input-sm" placeholder="name" name="name">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon input-sm">显示名称：</span>
+                            <input type="text" class="form-control input-sm" placeholder="displayName" name="displayName">
+                        </div>
+                    </div>
+                </li>
+                <li class="moveable">
+                    <span class="tool_name">JSON字段</span>
+                    <span class="x-type">x-type-list-field</span>
+                    <span class="java-type">JSONField</span>
+                    <div class="properties_box_hide">
+                        <div class="input-group">
+                            <span class="input-group-addon input-sm">字段名称：</span>
+                            <input type="text" class="form-control input-sm" placeholder="name" name="name">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon input-sm">显示名称：</span>
+                            <input type="text" class="form-control input-sm" placeholder="displayName" name="displayName">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon input-sm">JSON字段名称：</span>
+                            <input type="text" class="form-control input-sm" placeholder="jsonKey" name="jsonKey">
+                        </div>
+                    </div>
+                </li>
+                <li class="moveable">
+                    <span class="tool_name">全局字段</span>
+                    <span class="x-type">x-type-global-field</span>
+                    <span class="java-type">GlobalField</span>
+                    <div class="properties_box_hide">
+                        <div class="input-group">
+                            <span class="input-group-addon input-sm">字段名称：</span>
+                            <input type="text" class="form-control input-sm" placeholder="name" name="name">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon input-sm">显示名称：</span>
+                            <input type="text" class="form-control input-sm" placeholder="displayName" name="displayName">
+                        </div>
+                    </div>
+                </li>
+                <li class="moveable">
+                    <span class="tool_name">常量字段</span>
+                    <span class="x-type">x-type-global-field</span>
+                    <span class="java-type">ConstantField</span>
+                    <div class="properties_box_hide">
+                        <div class="input-group">
+                            <span class="input-group-addon input-sm">字段名称：</span>
+                            <input type="text" class="form-control input-sm" placeholder="name" name="name">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon input-sm">显示名称：</span>
+                            <input type="text" class="form-control input-sm" placeholder="displayName" name="displayName">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon input-sm">设置值：</span>
+                            <input type="text" class="form-control input-sm" placeholder="value" name="value">
+                        </div>
+                    </div>
+                </li>
+                <li>定位
+                    <ul style="list-style:none;">
+                        <li class="moveable">
+                            <span class="tool_name">css选择器</span>
+                            <span class="x-type">x-type-locate</span>
+                            <span class="java-type">CssLocate</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">css选择器：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="cssSelector" name="cssSelector">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">Jsoup-css选择器</span>
+                            <span class="x-type">x-type-locate</span>
+                            <span class="java-type">CssByJsoupLocate</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">css选择器：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="cssSelector" name="cssSelector">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">开始结束文本标记</span>
+                            <span class="x-type">x-type-locate</span>
+                            <span class="java-type">BeginAndEndTextLocate</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">开始文本：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="startText" name="startText">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">包含开始：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="containsStart" name="containsStart">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">结束文本：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="endText" name="endText">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">包含结束：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="containsEnd" name="containsEnd">
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li>页面定位
+                    <ul style="list-style:none;">
+                        <li class="moveable">
+                            <span class="tool_name">css选择器</span>
+                            <span class="x-type">x-type-page-locate</span>
+                            <span class="java-type">CssLocate</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">css选择器：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="cssSelector" name="cssSelector">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">Jsoup-css选择器</span>
+                            <span class="x-type">x-type-page-locate</span>
+                            <span class="java-type">CssByJsoupLocate</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">css选择器：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="cssSelector" name="cssSelector">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">开始结束文本标记</span>
+                            <span class="x-type">x-type-page-locate</span>
+                            <span class="java-type">BeginAndEndTextLocate</span>
+                        </li>
+                        <div class="properties_box_hide">
+                            <div class="input-group">
+                                <span class="input-group-addon input-sm">开始文本：</span>
+                                <input type="text" class="form-control input-sm" placeholder="startText" name="startText">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon input-sm">包含开始：</span>
+                                <input type="text" class="form-control input-sm" placeholder="containsStart" name="containsStart">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon input-sm">结束文本：</span>
+                                <input type="text" class="form-control input-sm" placeholder="endText" name="endText">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon input-sm">包含结束：</span>
+                                <input type="text" class="form-control input-sm" placeholder="containsEnd" name="containsEnd">
+                            </div>
+                        </div>
+                    </ul>
+                </li>
+                <li>字段值
+                    <ul style="list-style:none;">
+                        <li class="moveable">
+                            <span class="tool_name">链接</span>
+                            <span class="x-type">x-type-fieldvalue</span>
+                            <span class="java-type">SubURL</span>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">正文</span>
+                            <span class="x-type">x-type-fieldvalue</span>
+                            <span class="java-type">PlainText</span>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">正则表达式匹配</span>
+                            <span class="x-type">x-type-fieldvalue</span>
+                            <span class="java-type">RegexText</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">正则表达式：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="regx" name="regx">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">索引：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="index" name="index">
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li>字段处理器
+                    <ul style="list-style:none;">
+                        <li class="moveable">
+                            <span class="tool_name">中文转数字</span>
+                            <span class="x-type">x-type-fieldhandler</span>
+                            <span class="java-type">Hanzi2NumHandler</span>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">31会议网名称去重</span>
+                            <span class="x-type">x-type-fieldhandler</span>
+                            <span class="java-type">Huiyi31TitleHandler</span>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">字符串转日期</span>
+                            <span class="x-type">x-type-fieldhandler</span>
+                            <span class="java-type">String2DateHandler</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">日期格式：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="format" name="format">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="moveable">
+                            <span class="tool_name">字符串替换处理器</span>
+                            <span class="x-type">x-type-fieldhandler</span>
+                            <span class="java-type">ReplaceHandler</span>
+                            <div class="properties_box_hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">要替换的字符串：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="toReplace" name="toReplace">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">是否正则表达式：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="isReg" name="isReg">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm">替换为：</span>
+                                    <input type="text" class="form-control input-sm" placeholder="replaceWith" name="replaceWith">
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-6" id="flow">
+            <ul class="list-unstyled" id="first-level-list" title="flow-sub-list">
+                <li id="listPage"><span>列表页面</span><span id="global_id_span" style="display: none;">0</span>
+                    <ul style="list-style:none;">
+                        <li id="global-fields">全局字段</li>
+                        <li id="list-fields">列表字段</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-3" id="attrs_box">
+            <div class="properties_box_show" id="list-page-properties-box">
+                <div class="input-group">
+                    <span class="input-group-addon input-sm">列表选择器：</span>
+                    <input type="text" class="form-control input-sm" placeholder="listCssSelector" name="listCssSelector">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon input-sm">链接选择器：</span>
+                    <input type="text" class="form-control input-sm" placeholder="linkCssSelector" name="linkCssSelector">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h3>设置任务</h3>
+        <div class="form-inline">
+            <div class="col-lg-2">
+                <input type="text" class="form-control" placeholder="任务名称" name="taskName">
+            </div>
+            <div class="col-lg-3">
+                <input type="text" class="form-control" placeholder="Cron表达式" name="cron">
+            </div>
+            <button type="button" class="btn btn-success" id="add_gather_flow_task">设置</button>
+        </div>
+        <table class="table table-hover" style="display: none;" id="flowTaskList">
+            <thead>
+                <th>任务名称</th>
+                <th>cron表达式</th>
+                <th>操作</th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <table class="table">
+            <thead>
+            <th>执行时间</th>
+            <th>执行结果</th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

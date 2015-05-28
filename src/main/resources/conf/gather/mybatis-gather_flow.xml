@@ -1,0 +1,72 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.richeninfo.xrzgather.dao.GatherFlowDao">
+    <resultMap type="com.richeninfo.xrzgather.hbean.GatherFlow" id="gatherFlowList">
+        <id column="id" property="id" />
+        <result column="net_name" property="netName" />
+        <result column="gather_programa" property="gatherPrograma" />
+        <result column="list_page_url" property="listPageUrl" />
+        <result column="UUID" property="UUID" />
+        <result column="version" property="version" />
+        <result column="status" property="status" />
+        <result column="updatetime" property="updateTime" />
+        <result column="request_headers" property="requestHeaders" />
+        <result column="request_bodys" property="requestBodys" />
+    </resultMap>
+    <select id="select_gatherFlowList" resultMap="gatherFlowList" parameterType="string">
+		<!-- select id,net_name,gather_programa,list_page_url,UUID from rz_gather_flow where net_name like #{keyword} or gather_programa like #{keyword} -->
+		select id,net_name,gather_programa,list_page_url,UUID,updatetime from info_gather_flow
+        
+        <where>
+            <if test="_parameter != null and _parameter!=''">
+                (net_name like #{keyword} or gather_programa like #{keyword}) and
+            </if>
+            status='latest'
+        </where>
+        order by id desc
+	</select>
+    
+    <select id="select_gather_flow_info" resultMap="gatherFlowList" parameterType="string">
+        select request_headers, request_bodys from info_gather_flow where UUID=#{UUID} and status='latest'
+    </select>
+    
+    <select id="select_gather_flow_desc" resultType="string" parameterType="string">
+        select flow_desc from info_gather_flow where UUID=#{UUID} and status='latest'
+    </select>
+    <select id="select_gather_flow_by_uuid" resultMap="gatherFlowList" parameterType="string">
+        select * from info_gather_flow where UUID=#{_UUID} and status='latest'
+    </select>
+    <insert id="save_gather_flow" parameterType="com.richeninfo.xrzgather.hbean.GatherFlow">
+	    insert into info_gather_flow (net_name, gather_programa, list_page_url, UUID, version, status, updatetime, flow_desc, request_headers, request_bodys)
+        values (#{netName}, #{gatherPrograma}, #{listPageUrl}, #{UUID}, #{version}, #{status}, #{updateTime}, #{flowDesc}, #{requestHeaders}, #{requestBodys})
+	</insert>
+    <update id="update_gather_flow_status" parameterType="map">
+        update info_gather_flow set status = #{status} where UUID=#{_UUID} and version=#{version}
+    </update>
+    
+    <insert id="save_flow_task" parameterType="com.richeninfo.xrzgather.hbean.FlowTask" useGeneratedKeys="true" keyProperty="id">
+        insert into info_flow_task (flow_uuid, cron, task_name) values(#{flowUUID}, #{cron}, #{taskName})
+    </insert>
+    
+    <resultMap type="com.richeninfo.xrzgather.hbean.FlowTask" id="flowTaskList">
+        <id column="id" property="id" />
+        <id column="flow_uuid" property="flowUUID" />
+        <id column="cron" property="cron" />
+        <id column="task_name" property="taskName" />
+    </resultMap>
+    
+    <select id="get_task_list" parameterType="string" resultMap="flowTaskList">
+        select * from info_flow_task where flow_uuid=#{flowUUID}
+    </select>
+    
+    <select id="get_task_flow_uuid" parameterType="int" resultType="string">
+        select flow_uuid from info_flow_task where id=#{id}
+    </select>
+    
+    <delete id="deleteTask" parameterType="int">
+        delete from info_flow_task where id=#{id}
+    </delete>
+    <delete id="deleteFlow" parameterType="string">
+        delete from info_gather_flow where UUID=#{_UUID} and status='latest'
+    </delete>
+</mapper>

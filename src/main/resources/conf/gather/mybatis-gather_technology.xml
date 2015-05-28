@@ -1,0 +1,54 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.richeninfo.xrzgather.dao.GatherTechnologyDao">
+    <select id="techExists" resultType="int" parameterType="map">
+		select count(*) from gt_tech_info where info_source=#{infoSource} and tech_title=#{INFO_TITLE}
+	</select>
+    <select id="techBeginDate" resultType="java.util.Map" parameterType="map">
+		select begin_time,remark from gt_tech_info where info_source=#{infoSource} and tech_title=#{INFO_TITLE}
+	</select>
+    <select id="getTechSuitableTitle" resultType="string" parameterType="map">
+		SELECT tech_title FROM gt_tech_info where info_source=#{infoSource} order by pub_time desc,updatetime LIMIT 1
+	</select>
+    <update id="updateTechRemark" parameterType="string">
+        update gt_tech_info set remark = #{remark} where info_source=#{infoSource} and tech_title=#{INFO_TITLE}
+    </update>
+	<insert id="saveTechGatherResult" parameterType="map">
+	    insert into gt_tech_info( 
+        <if test="INFO_TITLE != null and INFO_TITLE != ''">tech_title</if>
+        <if test="ORIGINAL_INFO_TITLE != null and ORIGINAL_INFO_TITLE != ''">,original_info_title</if>
+        <if test="INFO_URL != null and INFO_URL != ''">,info_url</if>
+        <if test="INFO_PUBDATE != null and INFO_PUBDATE != ''">,pub_time</if>
+        <if test="infoSource != null and infoSource != ''">,info_source</if>
+        <if test="INFO_TEXT != null and INFO_TEXT != ''">,tech_content</if>
+        ,uuid,updatetime) values (
+        <if test="INFO_TITLE != null and INFO_TITLE != ''">#{INFO_TITLE}</if>
+        <if test="ORIGINAL_INFO_TITLE != null and ORIGINAL_INFO_TITLE != ''">,#{ORIGINAL_INFO_TITLE}</if>
+        <if test="INFO_URL != null and INFO_URL != ''">,#{INFO_URL}</if>
+        <if test="INFO_PUBDATE != null and INFO_PUBDATE != ''">,#{INFO_PUBDATE}</if>
+        <if test="infoSource != null and infoSource != ''">,#{infoSource}</if>
+        <if test="INFO_TEXT != null and INFO_TEXT != ''">,#{INFO_TEXT}</if>
+        ,#{INFO_UUID},now())
+	</insert>
+    
+    
+    <resultMap type="map" id="searchInfoListMap">
+        <result column="info_source" property="infoSource" />
+        <result column="tech_title" property="infoTitle" />
+        <result column="original_info_title" property="originalInfoTitle" />
+        <result column="pub_time" property="pubTime" />
+        <result column="info_url" property="infoUrl" />
+        <result column="uuid" property="uuid" />
+    </resultMap>
+    <select id="searchInfoList" resultMap="searchInfoListMap" parameterType="map">
+		SELECT info_source,tech_title,original_info_title,pub_time,info_url,uuid FROM gt_tech_info
+        <where>
+            <if test="title != null and title != ''">tech_title like #{title}</if>
+            <if test="uuid != null and uuid != ''">or uuid=#{uuid}</if>
+            <if test="infoId != null and infoId != ''">or techinfo_id=#{infoId}</if>
+        </where>
+	</select>
+    <select id="showInfoText" resultType="string" parameterType="string">
+		SELECT tech_content FROM gt_tech_info where uuid=#{uuid}
+	</select>
+</mapper>

@@ -1,0 +1,120 @@
+fields:
+  - name: MainCategory
+    text: 主营项目（大类）
+    parse:
+      from: global
+      var: mainCategory
+  - name: Category
+    text: 主营项目（小类）
+    parse:
+      from: global
+      var: category
+  - name: SalesPromotion
+    text: 优惠情况
+    locate:
+      - type: css
+        selector: div#sales div.group.clearfix
+    handler:
+      - type: replace
+        target: \s+
+        reg: true
+        replacement: " "
+  - name: branch
+    text: 分店个数
+    locate:
+      - type: css
+        selector: div#basic-info a.branch.J-branch
+    parse:
+      from: reg
+      reg: "[^\d]*(\d{1,})"
+      index: 1
+  - name: region
+    text: 区域
+    parse:
+      from: global
+      var: region
+  - name: location
+    text: 营业地址
+    locate:
+      - type: css
+        selector: div#basic-info div.address
+    handler:
+      - type: replace
+        target: \s+
+        reg: true
+  - name: average
+    text: 人均
+    locate:
+      - type: css
+        selector: div#basic-info div.brief-info
+      - type: start-end
+        start: 人均
+        start-with: true
+        end: </
+        end-with: false
+  - name: flavour
+    text: 口味
+    locate:
+      - type: css
+        selector: div#basic-info div.brief-info
+      - type: start-end
+        start: 口味
+        start-with: true
+        end: </
+        end-with: false
+  - name: env
+    text: 环境
+    locate:
+      - type: css
+        selector: div#basic-info div.brief-info
+      - type: start-end
+        start: 环境
+        start-with: true
+        end: </
+        end-with: false
+  - name: service
+    text: 服务
+    locate:
+      - type: css
+        selector: div#basic-info div.brief-info
+      - type: start-end
+        start: 服务
+        start-with: true
+        end: </
+        end-with: false
+  - name: tel
+    text: 店铺联系方式(广告)
+    locate:
+      - type: css
+        selector: "div#basic-info span[itemprop=tel]"
+
+  # substring first, and then css selector
+  - name: hours
+    text: 营业时间
+    locate:
+      - type: start-end
+        start: 营业时间：</span>
+        start-with: false
+        end: <a
+        end-with: false
+      - type: css
+        selector: span.item
+  - name: recommendDish
+    text: 招牌服务(广告)
+    locate:
+      - type: start-end
+        start: class="shop-tab-recommend J-panel Hide">
+        start-with: false
+        end: </div>
+        end-with: false
+      - type: css
+        selector: "a.item,p.name"
+    handler:
+      - type: replace
+        target: \s+
+        reg: true
+        replacement: " "
+      - type: replace
+        target: " ("
+        reg: false
+        replacement: "("

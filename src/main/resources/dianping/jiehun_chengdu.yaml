@@ -1,0 +1,78 @@
+fields:
+  - name: MainCategory
+    text: 主营项目（大类）
+    parse:
+      from: global
+      var: mainCategory
+  - name: Category
+    text: 主营项目（小类）
+    parse:
+      from: global
+      var: category
+  - name: SalesPromotion
+    text: 优惠情况
+    locate:
+      - type: css
+        selector: div#main-body div.promo-list li
+    handler:
+      - type: replace
+        target: \s+
+        reg: true
+        replacement: " "
+  - name: branch
+    text: 分店个数
+    locate:
+      - type: css
+        selector: "div#J_boxDetail div.shop-name a.ep-trigger"
+    parse:
+      from: reg
+      reg: "[^\d]*(\d{1,})"
+      index: 1
+  - name: region
+    text: 区域
+    parse:
+      from: global
+      var: region
+  - name: location
+    text: 营业地址
+    locate:
+      - type: css
+        selector: "div#J_boxDetail div.shop-info div.shop-addr span"
+    handler:
+      - type: replace
+        target: \s+
+        reg: true
+      - type: replace
+        target: 地址：
+        reg: false
+  - name: tel
+    text: 店铺联系方式(广告)
+    locate:
+      - type: css
+        selector: "div#J_boxReserve div.shopinfor p :nth-child(1)"
+  - name: Price
+    text: 费用
+    locate:
+      - type: css
+        selector: "div#J_boxDetail div.shop-info strong.stress"
+
+  - name: product
+    text: 官方产品
+    locate:
+      - type: css
+        selector: "div.con div.pic-tit ul"
+    handler:
+      - type: replace
+        target: \s+
+        reg: true
+        replacement: " "
+  - name: intro
+    text: 商户简介
+    locate:
+      - type: css
+        selector: "div.con.J_showWarp"
+    handler:
+      - type: replace
+        target: \s+
+        reg: true
+        replacement: " "

@@ -1,0 +1,104 @@
+fields:
+  - name: MainCategory
+    text: 主营项目（大类）
+    parse:
+      from: global
+      var: mainCategory
+  - name: Category
+    text: 主营项目（小类）
+    parse:
+      from: global
+      var: category
+  - name: SalesPromotion
+    text: 优惠情况
+    locate:
+      - type: css
+        selector: div#sales
+    handler:
+      - type: replace
+        target: \s+
+        reg: true
+        replacement: " "
+  - name: region
+    text: 区域
+    parse:
+      from: global
+      var: region
+  - name: location
+    text: 营业地址
+    locate:
+      - type: css
+        selector: "div#basic-info div[itemprop=street-address]"
+    handler:
+      - type: replace
+        target: \s+
+        reg: true
+      - type: replace
+        target: 地址：
+        reg: false
+  - name: branch
+    text: 分店个数
+    locate:
+      - type: css
+        selector: "div#basic-info a.branch.J-branch"
+    parse:
+      from: reg
+      reg: "[^\d]*(\d{1,})"
+      index: 1
+  - name: tel
+    text: 店铺联系方式(广告)
+    locate:
+      - type: css
+        selector: "div#basic-info span[itemprop=tel]"
+  - name: average
+    text: 人均
+    locate:
+      - type: css
+        selector: div#basic-info div.brief-info
+      - type: start-end
+        start: 人均
+        start-with: true
+        end: </
+        end-with: false
+  - name: Effect
+    text: 效果
+    locate:
+      - type: css
+        selector: div#basic-info div.brief-info
+      - type: start-end
+        start: 效果
+        start-with: true
+        end: </
+        end-with: false
+  - name: env
+    text: 环境
+    locate:
+      - type: css
+        selector: div#basic-info div.brief-info
+      - type: start-end
+        start: 环境
+        start-with: true
+        end: </
+        end-with: false
+  - name: service
+    text: 服务
+    locate:
+      - type: css
+        selector: div#basic-info div.brief-info
+      - type: start-end
+        start: 服务
+        start-with: true
+        end: </
+        end-with: false
+
+  # substring first, and then css selector
+  - name: hours
+    text: 营业时间
+    locate:
+      - type: start-end
+        start: 营业时间：</span>
+        start-with: false
+        end: <a
+        end-with: false
+      - type: css
+        selector: span.item

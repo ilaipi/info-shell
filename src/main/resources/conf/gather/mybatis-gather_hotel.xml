@@ -1,0 +1,70 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.richeninfo.xrzgather.dao.GatherHotelDao">
+	<insert id="saveGatherResult" parameterType="map">
+	    insert into info_hotel_info(
+        <if test="INFO_NET_NAME != null and INFO_NET_NAME != ''">info_net_name</if>
+        <if test="infoSource != null and infoSource != ''">,info_source</if>
+        <if test="INFO_TITLE != null and INFO_TITLE != ''">,hotel_name</if>
+        <if test="INFO_URL != null and INFO_URL != ''">,info_url</if>
+        <if test="HOTEL_ADDRESS != null and HOTEL_ADDRESS != ''">,hotel_address</if>
+        <if test="HOTEL_TEL != null and HOTEL_TEL != ''">,hotel_tel</if>
+        <if test="HOTEL_SERVICE != null and HOTEL_SERVICE != ''">,hotel_service</if>
+        <if test="HOTEL_ROOM != null and HOTEL_ROOM != ''">,hotel_room</if>
+        <if test="HOTEL_CITY != null and HOTEL_CITY != ''">,hotel_city</if>
+        <if test="HOTEL_TOP_RANK != null and HOTEL_TOP_RANK != ''">,hotel_top_rank</if>
+        <if test="HOTEL_TOTAL != null and HOTEL_TOTAL != ''">,hotel_total</if>
+        <if test="HOTEL_INTRO != null and HOTEL_INTRO != ''">,hotel_intro</if>
+        <if test="HOTEL_TRANSPORT != null and HOTEL_TRANSPORT != ''">,hotel_transport</if>
+        <if test="HOTEL_OPENED != null and HOTEL_OPENED != ''">,hotel_opened</if>
+        ,uuid,updatetime) values (
+        <if test="INFO_NET_NAME != null and INFO_NET_NAME != ''">#{INFO_NET_NAME}</if>
+        <if test="infoSource != null and infoSource != ''">,#{infoSource}</if>
+        <if test="INFO_TITLE != null and INFO_TITLE != ''">,#{INFO_TITLE}</if>
+        <if test="INFO_URL != null and INFO_URL != ''">,#{INFO_URL}</if>
+        <if test="HOTEL_ADDRESS != null and HOTEL_ADDRESS != ''">,#{HOTEL_ADDRESS}</if>
+        <if test="HOTEL_TEL != null and HOTEL_TEL != ''">,#{HOTEL_TEL}</if>
+        <if test="HOTEL_SERVICE != null and HOTEL_SERVICE != ''">,#{HOTEL_SERVICE}</if>
+        <if test="HOTEL_ROOM != null and HOTEL_ROOM != ''">,#{HOTEL_ROOM}</if>
+        <if test="HOTEL_CITY != null and HOTEL_CITY != ''">,#{HOTEL_CITY}</if>
+        <if test="HOTEL_TOP_RANK != null and HOTEL_TOP_RANK != ''">,#{HOTEL_TOP_RANK}</if>
+        <if test="HOTEL_TOTAL != null and HOTEL_TOTAL != ''">,#{HOTEL_TOTAL}</if>
+        <if test="HOTEL_INTRO != null and HOTEL_INTRO != ''">,#{HOTEL_INTRO}</if>
+        <if test="HOTEL_TRANSPORT != null and HOTEL_TRANSPORT != ''">,#{HOTEL_TRANSPORT}</if>
+        <if test="HOTEL_OPENED != null and HOTEL_OPENED != ''">,#{HOTEL_OPENED}</if>
+        ,#{INFO_UUID},now())
+	</insert>
+    
+    <resultMap type="map" id="searchInfoListMap">
+        <result column="info_net_name" property="INFO_NET_NAME" />
+        <result column="info_source" property="INFO_SOURCE_HOTEL" />
+        <result column="hotel_name" property="INFO_TITLE_HOTEL" />
+        <result column="info_url" property="infoUrl" />
+
+        <result column="hotel_address" property="HOTEL_ADDRESS" />
+        <result column="hotel_tel" property="HOTEL_TEL" />
+        <result column="hotel_service" property="HOTEL_SERVICE" />
+        <result column="hotel_room" property="HOTEL_ROOM" />
+        <result column="hotel_city" property="HOTEL_CITY" />
+        <result column="hotel_top_rank" property="HOTEL_TOP_RANK" />
+        <result column="hotel_total" property="HOTEL_TOTAL" />
+        <result column="hotel_intro" property="HOTEL_INTRO" />
+        <result column="hotel_transport" property="HOTEL_TRANSPORT" />
+        <result column="hotel_opened" property="HOTEL_OPENED" />
+        <result column="uuid" property="uuid" />
+    </resultMap>
+    <select id="searchInfoList" resultMap="searchInfoListMap" parameterType="map">
+		SELECT info_net_name, info_source, hotel_name, info_url, hotel_address, hotel_tel, hotel_service, hotel_room, hotel_city,
+        hotel_top_rank, hotel_total, hotel_intro, hotel_transport, hotel_opened, uuid
+        FROM info_hotel_info
+        <where>
+            <if test="title != null and title != ''">hotel_name like #{title}</if>
+            <if test="INFO_SOURCE != null and INFO_SOURCE != ''">or info_source like #{INFO_SOURCE}</if>
+            <if test="uuid != null and uuid != ''">or uuid=#{uuid}</if>
+            <if test="infoId != null and infoId != ''">or id=#{infoId}</if>
+        </where>
+	</select>
+    <select id="showInfoText" resultType="string" parameterType="string">
+		SELECT meeting_topic FROM info_meeting_info where uuid=#{uuid}
+	</select>
+</mapper>

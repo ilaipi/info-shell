@@ -1,0 +1,65 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.richeninfo.xrzgather.dao.GatherHuiyiDao">
+    <select id="huiyiExists" resultType="int" parameterType="map">
+		select count(*) from gt_meeting_info where info_source=#{infoSource} and meeting_name=#{INFO_TITLE}
+	</select>
+    <select id="huiyiBeginDate" resultType="java.util.Map" parameterType="map">
+		select begin_time,remark from gt_meeting_info where info_source=#{infoSource} and meeting_name=#{INFO_TITLE}
+	</select>
+    <select id="getSuitableTitle" resultType="string" parameterType="map">
+		SELECT meeting_name FROM gt_meeting_info where info_source=#{infoSource} ORDER BY begin_time DESC,updatetime LIMIT 1
+	</select>
+    <update id="updateHuiyiRemark" parameterType="string">
+        update gt_meeting_info set remark = #{remark} where info_source=#{infoSource} and meeting_name=#{INFO_TITLE}
+    </update>
+	<insert id="saveGatherResult" parameterType="map">
+	    insert into gt_meeting_info( 
+        <if test="INFO_TITLE != null and INFO_TITLE != ''">meeting_name</if>
+        <if test="ORIGINAL_INFO_TITLE != null and ORIGINAL_INFO_TITLE != ''">,original_info_title</if>
+        <if test="INFO_URL != null and INFO_URL != ''">,info_url</if>
+        <if test="place != null and place != ''">,meeting_place</if>
+        <if test="INFO_PUBDATE != null and INFO_PUBDATE != ''">,begin_time</if>
+        <if test="endDateTime != null and endDateTime != ''">,end_time</if>
+        <if test="infoSource != null and infoSource != ''">,info_source</if>
+        <if test="meetingOrganizer != null and meetingOrganizer != ''">,meeting_organizer</if>
+        <if test="meetingUndertaker != null and meetingUndertaker != ''">,meeting_undertaker</if>
+        <if test="meetingTopic != null and meetingTopic != ''">,meeting_topic</if>
+        ,uuid,updatetime) values (
+        <if test="INFO_TITLE != null and INFO_TITLE != ''">#{INFO_TITLE}</if>
+        <if test="ORIGINAL_INFO_TITLE != null and ORIGINAL_INFO_TITLE != ''">,#{ORIGINAL_INFO_TITLE}</if>
+        <if test="INFO_URL != null and INFO_URL != ''">,#{INFO_URL}</if>
+        <if test="place != null and place != ''">,#{place}</if>
+        <if test="INFO_PUBDATE != null and INFO_PUBDATE != ''">,#{INFO_PUBDATE}</if>
+        <if test="endDateTime != null and endDateTime != ''">,#{endDateTime}</if>
+        <if test="infoSource != null and infoSource != ''">,#{infoSource}</if>
+        <if test="meetingOrganizer != null and meetingOrganizer != ''">,#{meetingOrganizer}</if>
+        <if test="meetingUndertaker != null and meetingUndertaker != ''">,#{meetingUndertaker}</if>
+        <if test="meetingTopic != null and meetingTopic != ''">,#{meetingTopic}</if>
+        ,#{INFO_UUID},now())
+	</insert>
+    
+    <resultMap type="map" id="searchInfoListMap">
+        <result column="info_source" property="infoSource" />
+        <result column="meeting_name" property="infoTitle" />
+        <result column="original_info_title" property="originalInfoTitle" />
+        <result column="begin_time" property="pubTime" />
+        <result column="end_time" property="endTime" />
+        <result column="meeting_place" property="meetingPlace" />
+        <result column="meeting_organizer" property="meetingOrganizer" />
+        <result column="meeting_undertaker" property="meetingUndertaker" />
+        <result column="info_url" property="infoUrl" />
+        <result column="uuid" property="uuid" />
+    </resultMap>
+    <select id="searchInfoList" resultMap="searchInfoListMap" parameterType="map">
+		SELECT info_source,meeting_name,original_info_title,begin_time,end_time,meeting_place,meeting_organizer,meeting_undertaker,info_url,uuid FROM gt_meeting_info
+        <where>
+            <if test="title != null and title != ''">meeting_name like #{title}</if>
+            <if test="uuid != null and uuid != ''">or uuid=#{uuid}</if>
+            <if test="infoId != null and infoId != ''">or meeting_id=#{infoId}</if>
+        </where>
+	</select>
+    <select id="showInfoText" resultType="string" parameterType="string">
+		SELECT meeting_topic FROM gt_meeting_info where uuid=#{uuid}
+	</select>
+</mapper>

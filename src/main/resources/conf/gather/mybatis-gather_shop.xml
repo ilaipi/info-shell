@@ -1,0 +1,72 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.richeninfo.xrzgather.dao.GatherShopDao">
+	<insert id="saveGatherResult" parameterType="map">
+	    insert into info_shop_info(
+        <if test="INFO_TITLE != null and INFO_TITLE != ''">shop_name</if>
+        <if test="INFO_URL != null and INFO_URL != ''">,shop_url</if>
+        <if test="SHOP_ADDRESS != null and SHOP_ADDRESS != ''">,shop_address</if>
+        <if test="SHOP_TEL != null and SHOP_TEL != ''">,shop_tel</if>
+        <if test="SHOP_HOURS != null and SHOP_HOURS != ''">,shop_hours</if>
+        <if test="SHOP_CITY != null and SHOP_CITY != ''">,shop_city</if>
+        <if test="INFO_NET_NAME != null and INFO_NET_NAME != ''">,info_net_name</if>
+        <if test="infoSource != null and infoSource != ''">,info_source</if>
+        <if test="FULL_CATEGORY_PATH_NAME != null and FULL_CATEGORY_PATH_NAME != ''">,full_category_path_name</if>
+        <if test="SHOP_STARS != null and SHOP_STARS != ''">,shop_stars</if>
+        <if test="SHOP_AVERAGE != null and SHOP_AVERAGE != ''">,shop_average</if>
+        <if test="SHOP_SERVICE != null and SHOP_SERVICE != ''">,shop_service</if>
+        <if test="SHOP_FLAVOUR != null and SHOP_FLAVOUR != ''">,shop_flavour</if>
+        <if test="SHOP_ENV != null and SHOP_ENV != ''">,shop_env</if>
+        <if test="SHOP_RECOMMEND_DISH != null and SHOP_RECOMMEND_DISH != ''">,shop_recommend_dish</if>
+        ,uuid,updatetime) values (
+        <if test="INFO_TITLE != null and INFO_TITLE != ''">#{INFO_TITLE}</if>
+        <if test="INFO_URL != null and INFO_URL != ''">,#{INFO_URL}</if>
+        <if test="SHOP_ADDRESS != null and SHOP_ADDRESS != ''">,#{SHOP_ADDRESS}</if>
+        <if test="SHOP_TEL != null and SHOP_TEL != ''">,#{SHOP_TEL}</if>
+        <if test="SHOP_HOURS != null and SHOP_HOURS != ''">,#{SHOP_HOURS}</if>
+        <if test="SHOP_CITY != null and SHOP_CITY != ''">,#{SHOP_CITY}</if>
+        <if test="INFO_NET_NAME != null and INFO_NET_NAME != ''">,#{INFO_NET_NAME}</if>
+        <if test="infoSource != null and infoSource != ''">,#{infoSource}</if>
+        <if test="FULL_CATEGORY_PATH_NAME != null and FULL_CATEGORY_PATH_NAME != ''">,#{FULL_CATEGORY_PATH_NAME}</if>
+        <if test="SHOP_STARS != null and SHOP_STARS != ''">,#{SHOP_STARS}</if>
+        <if test="SHOP_AVERAGE != null and SHOP_AVERAGE != ''">,#{SHOP_AVERAGE}</if>
+        <if test="SHOP_SERVICE != null and SHOP_SERVICE != ''">,#{SHOP_SERVICE}</if>
+        <if test="SHOP_FLAVOUR != null and SHOP_FLAVOUR != ''">,#{SHOP_FLAVOUR}</if>
+        <if test="SHOP_ENV != null and SHOP_ENV != ''">,#{SHOP_ENV}</if>
+        <if test="SHOP_RECOMMEND_DISH != null and SHOP_RECOMMEND_DISH != ''">,#{SHOP_RECOMMEND_DISH}</if>
+        ,#{INFO_UUID},now())
+	</insert>
+    
+    <resultMap type="map" id="searchInfoListMap">
+        <result column="info_net_name" property="INFO_NET_NAME" />
+        <result column="info_source" property="INFO_SOURCE_SHOP" />
+        <result column="shop_name" property="INFO_TITLE_SHOP" />
+        <result column="full_category_path_name" property="FULL_CATEGORY_PATH_NAME" />
+        <result column="shop_address" property="SHOP_ADDRESS" />
+        <result column="shop_tel" property="SHOP_TEL" />
+        <result column="shop_city" property="SHOP_CITY" />
+        <result column="shop_hours" property="SHOP_HOURS" />
+        <result column="shop_stars" property="SHOP_STARS" />
+        <result column="shop_average" property="SHOP_AVERAGE" />
+        <result column="shop_service" property="SHOP_SERVICE" />
+        <result column="shop_flavour" property="SHOP_FLAVOUR" />
+        <result column="shop_env" property="SHOP_ENV" />
+        <result column="shop_recommend_dish" property="SHOP_RECOMMEND_DISH" />
+        <result column="shop_url" property="infoUrl" />
+        <result column="uuid" property="uuid" />
+    </resultMap>
+    <select id="searchInfoList" resultMap="searchInfoListMap" parameterType="map">
+		SELECT info_net_name, info_source, shop_name, full_category_path_name, shop_address, shop_tel, shop_hours, shop_stars, shop_average,
+        shop_service, shop_flavour, shop_env, shop_url, uuid, shop_city, shop_recommend_dish
+        FROM info_shop_info
+        <where>
+            <if test="title != null and title != ''">shop_name like #{title}</if>
+            <if test="INFO_SOURCE != null and INFO_SOURCE != ''">or info_source like #{INFO_SOURCE}</if>
+            <if test="uuid != null and uuid != ''">or uuid=#{uuid}</if>
+            <if test="infoId != null and infoId != ''">or id=#{infoId}</if>
+        </where>
+	</select>
+    <select id="showInfoText" resultType="string" parameterType="string">
+		SELECT meeting_topic FROM info_meeting_info where uuid=#{uuid}
+	</select>
+</mapper>
