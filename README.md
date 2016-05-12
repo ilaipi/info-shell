@@ -8,7 +8,7 @@
   
 -  `global-field`    gather using the whole listpage html
   
--  `constant-field    set some constant,treated as global-field
+-  `constant-field`    set some constant,treated as global-field
   
 -  `list-field`    gather using the list tag html
   
