@@ -1,3 +1,8 @@
+# info-shell
+gather news from any website
+
+=======
+
 ### for a gather flow ,there are beans:
 
 -  `shell`    do the cycle for all info
@@ -25,6 +30,3 @@ after you config all beans ok,you can set a task for the flow using the cron...
   The project use mybatis 3 to access the db,and all field gathered put in map while gather running, 
   and at last the map will be saved by `mybatis`.
 
-=======
-# info-shell
-gather news from any website
